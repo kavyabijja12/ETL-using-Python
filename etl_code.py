@@ -71,6 +71,7 @@ def load_data(target_file, transformed_data):
     print(query_statement)
     print(query_output)
     print('Table is ready')
+    conn.close()
 
 
 # Logging
