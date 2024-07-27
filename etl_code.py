@@ -2,6 +2,8 @@ import glob
 import pandas as pd 
 import xml.etree.ElementTree as ET 
 from datetime import datetime 
+import pandas as pd
+import sqlite3
 
 # For Logs 
 log_file = "log_file.txt" 
@@ -60,6 +62,16 @@ def transform(data):
 # Loading
 def load_data(target_file, transformed_data): 
     transformed_data.to_csv(target_file) 
+    df = pd.read_csv(target_file)
+    conn = sqlite3.connect('TransformedData.db')
+    table_name = "Transform"
+    df.to_sql(table_name, conn, if_exists = 'replace', index =False)
+    query_statement = f"SELECT * FROM {table_name}"
+    query_output = pd.read_sql(query_statement, conn)
+    print(query_statement)
+    print(query_output)
+    print('Table is ready')
+
 
 # Logging
 def log_progress(message): 
